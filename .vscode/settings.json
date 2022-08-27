@@ -3,4 +3,21 @@
   "idf.port": "/dev/ttyUSB0",
   "idf.adapterTargetName": "esp32",
   "idf.flashType": "UART",
+  "files.associations": {
+    "*.c": "c",
+    "*.dart": "dart",
+    "*.html": "html",
+    "*.rtos": "makefile",
+    "*.incl": "makefile",
+    "*.main": "makefile",
+    "*.rear": "makefile",
+    "*.front": "makefile",
+    "*.middle": "makefile",
+    "mqtt_client.h": "c",
+    "stdio.h": "c",
+    "esp_log.h": "c",
+    "mqtt_lib.h": "c",
+    "*.inc": "c",
+    "dns.h": "c"
+  },
 }
