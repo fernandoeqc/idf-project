@@ -28,6 +28,7 @@
 
 #include "mqtt_lib.h"
 #include "adc_lib.h"
+#include "json_lib.h"
 
 static const char *TAG = "MAIN";
 
@@ -53,6 +54,17 @@ void app_main(void)
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
+
+static void vTaskJson(void *arg)
+{
+    for(;;)
+    {
+        getAverageVolt();
+        vTaskDelay(pdMS_TO_TICKS(2000));
+    }
+    vTaskDelete(NULL);
+}
+
 
 static void createTasks(void)
 {
