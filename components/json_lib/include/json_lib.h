@@ -1,1 +1,1 @@
-void func(void);
+void getJson(void);
