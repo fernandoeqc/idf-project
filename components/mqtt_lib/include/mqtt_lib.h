@@ -9,5 +9,6 @@
 
 /* Functions Prototypes */
 void mqtt_app_start(void);
+void send_mqtt(char *data, int len);
 
 #endif //MQTT_LIB_H

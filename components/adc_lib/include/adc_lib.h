@@ -9,7 +9,6 @@
 
 /* Functions Prototypes */
 void setup_adc(void);
-void get_adc(void);
-float getAverageVolt(void);
+float get_adc(void);
 
 #endif // ADC_LIB_H

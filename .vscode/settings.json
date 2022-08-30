@@ -9,6 +9,13 @@
     "*.c": "c",
     "cjson.h": "c",
     "mqtt_lib.h": "c",
-    "json_lib.h": "c"
+    "json_lib.h": "c",
+    "complex": "c",
+    "bitset": "c",
+    "chrono": "c",
+    "algorithm": "c",
+    "string": "c",
+    "array": "c",
+    "string_view": "c"
   }
 }

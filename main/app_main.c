@@ -31,12 +31,12 @@
 #include "json_lib.h"
 
 static const char *TAG = "MAIN";
+QueueHandle_t q_voltage_reads;
 
 /* Functions Prototypes */
 static void createTasks(void);
-static void vTaskReadAdc(void *arg);
-static void vTaskJson(void *arg);
-static void vTaskMqtt(void *arg);
+static void vTaskReadVoltage(void *arg);
+static void vTaskJsonPacket(void *arg);
 
 void app_main(void)
 {   
@@ -55,51 +55,60 @@ void app_main(void)
     }
 }
 
-static void vTaskJson(void *arg)
-{
-    for(;;)
-    {
-        getAverageVolt();
-        vTaskDelay(pdMS_TO_TICKS(2000));
-    }
-    vTaskDelete(NULL);
-}
-
-
 static void createTasks(void)
 {
-    xTaskCreate(vTaskReadAdc,
-                "read_adc",
+    xTaskCreate(vTaskReadVoltage,
+                "readV",
                 2048,
                 NULL,
                 1,
                 NULL);
 
-    xTaskCreate(vTaskJson,
-                "read_adc",
+    xTaskCreate(vTaskJsonPacket,
+                "jsonPack",
                 2048,
                 NULL,
                 1,
                 NULL);
+    q_voltage_reads = xQueueCreate( 50, sizeof( float ) );
 }
 
-static void vTaskReadAdc(void *arg)
-{
+static void vTaskReadVoltage(void *arg)
+{   
+    int count = 0;
+    float snd; 
+
+    ESP_LOGI(TAG, "vTaskReadVoltage created...");
+    
     setup_adc();
     for(;;)
-    {
-        get_adc();
-        vTaskDelay(pdMS_TO_TICKS(100));
+    {   
+
+        snd = get_adc();
+        
+        xQueueSend(q_voltage_reads, &snd, pdMS_TO_TICKS(20));
+        printf("count: %i\n", count);
+        count++;
+
+        vTaskDelay(pdMS_TO_TICKS(2000));
     }
     vTaskDelete(NULL);
 }
 
-static void vTaskJson(void *arg)
+static void vTaskJsonPacket(void *arg)
 {
+    float rcv;
+    ESP_LOGI(TAG, "vTaskJsonPacket created...");
     for(;;)
     {
-        getAverageVolt();
-        vTaskDelay(pdMS_TO_TICKS(2000));
+        while (xQueueReceive(q_voltage_reads, &rcv, pdMS_TO_TICKS(500)) == true)
+        {
+            createJson(rcv);
+            // send_mqtt(rcv, 5);
+        }
+        
+
+        vTaskDelay(pdMS_TO_TICKS(10000));
     }
     vTaskDelete(NULL);
 }

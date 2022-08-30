@@ -7,6 +7,8 @@
 #ifndef JSON_LIB_H
 #define JSON_LIB_H
 
-void func(void);
+/* Function Prototypes */
+void createJson(float data);
+
 
 #endif //JSON_LIB_H

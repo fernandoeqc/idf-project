@@ -11,6 +11,9 @@
 
 static const char *TAG = "MQTT";
 
+esp_mqtt_client_config_t mqtt_cfg = {.uri = CONFIG_BROKER_URL,};
+esp_mqtt_client_handle_t client;
+
 static void log_error_if_nonzero(const char * message, int error_code)
 {
     if (error_code != 0) {
@@ -82,9 +85,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 
 void mqtt_app_start(void)
 {
-    esp_mqtt_client_config_t mqtt_cfg = {
-        .uri = CONFIG_BROKER_URL,
-    };
+
 #if CONFIG_BROKER_URL_FROM_STDIN
     char line[128];
 
@@ -110,7 +111,12 @@ void mqtt_app_start(void)
     }
 #endif /* CONFIG_BROKER_URL_FROM_STDIN */
 
-    esp_mqtt_client_handle_t client = esp_mqtt_client_init(&mqtt_cfg);
+    client = esp_mqtt_client_init(&mqtt_cfg);
     esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, client);
     esp_mqtt_client_start(client);
+}
+
+void send_mqtt(char *data, int len)
+{
+    esp_mqtt_client_publish(client, "/diel/sensor/", data, 0, 0, 0);
 }
