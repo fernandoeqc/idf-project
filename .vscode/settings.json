@@ -4,33 +4,11 @@
   "idf.adapterTargetName": "esp32",
   "idf.flashType": "UART",
   "git.detectSubmodules": false,
-<<<<<<< HEAD
   "git.autoRepositoryDetection": false,
-=======
-  "git.autoRepositoryDetection": false,
->>>>>>> add json component
   "files.associations": {
     "*.c": "c",
-    "*.dart": "dart",
-    "*.html": "html",
-    "*.rtos": "makefile",
-    "*.incl": "makefile",
-    "*.main": "makefile",
-    "*.rear": "makefile",
-    "*.front": "makefile",
-    "*.middle": "makefile",
-<<<<<<< HEAD
-    "adc_lib.h": "c",
-    "esp_adc_cal.h": "c",
-    "queue.h": "c",
-    "protocol_examples_common.h": "c",
-    "task.h": "c",
-    "mqtt_lib.h": "c"
-  },
-=======
     "cjson.h": "c",
     "mqtt_lib.h": "c",
     "json_lib.h": "c"
   }
->>>>>>> add json component
 }
