@@ -16,6 +16,7 @@
     "algorithm": "c",
     "string": "c",
     "array": "c",
-    "string_view": "c"
+    "string_view": "c",
+    "*.inc": "c"
   }
 }
