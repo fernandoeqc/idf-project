@@ -1,0 +1,31 @@
+{
+    "Adiciona cabeçalho": {
+        "prefix": "fernando",
+        "body": [
+            "/**",
+            " *    Fernando Carneiro",
+            " *    @fernandoeqc",
+            " *    $CURRENT_YEAR",
+            " */"
+        ]
+    },
+
+    "Adiciona padrão do projeto no header": {
+        "prefix": "newh",
+        "body": [
+            "/**",
+            " *    Fernando Carneiro",
+            " *    @fernandoeqc",
+            " *    $CURRENT_YEAR",
+            " */",
+            "",
+            "#ifndef ${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_H",
+			"#define ${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_H",
+			"",
+            "/* Functions Prototypes */",
+			"$0",
+			"",
+			"#endif //${TM_FILENAME_BASE/(.*)/${1:/upcase}/}_H"
+        ]
+    }
+}

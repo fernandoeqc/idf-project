@@ -1,10 +1,9 @@
-/* 
-    Fernando Carneiro
-    @fernandoeqc
-    2022
-
-    MQTT (over TCP) Example (ESP-IDF) based
-*/
+/**
+ *    Fernando Carneiro
+ *    @fernandoeqc
+ *    2022
+ *    Telemetria de dados via Mqtt
+ */
 
 #include <stdio.h>
 #include <stdint.h>
@@ -28,11 +27,19 @@
 #include "esp_log.h"
 
 #include "mqtt_lib.h"
+#include "adc_lib.h"
 
 static const char *TAG = "MAIN";
 
+/* Functions Prototypes */
+static void createTasks(void);
+static void vTaskReadAdc(void *arg);
+static void vTaskJson(void *arg);
+static void vTaskMqtt(void *arg);
+
 void app_main(void)
 {
+/*     
     ESP_LOGI(TAG, "[APP] Startup..");
     ESP_LOGI(TAG, "[APP] Free memory: %d bytes", esp_get_free_heap_size());
     ESP_LOGI(TAG, "[APP] IDF version: %s", esp_get_idf_version());
@@ -49,11 +56,52 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
 
-    /* This helper function configures Wi-Fi or Ethernet, as selected in menuconfig.
-     * Read "Establishing Wi-Fi or Ethernet Connection" section in
-     * examples/protocols/README.md for more information about this function.
-     */
     ESP_ERROR_CHECK(example_connect());
 
     mqtt_app_start();
+*/
+
+    createTasks();
+    for(;;)
+    {
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+}
+
+static void createTasks(void)
+{
+    xTaskCreate(vTaskReadAdc,
+                "read_adc",
+                2048,
+                NULL,
+                1,
+                NULL);
+
+    xTaskCreate(vTaskJson,
+                "read_adc",
+                2048,
+                NULL,
+                1,
+                NULL);
+}
+
+static void vTaskReadAdc(void *arg)
+{
+    setup_adc();
+    for(;;)
+    {
+        get_adc();
+        vTaskDelay(pdMS_TO_TICKS(100));
+    }
+    vTaskDelete(NULL);
+}
+
+static void vTaskJson(void *arg)
+{
+    for(;;)
+    {
+        getAverageVolt();
+        vTaskDelay(pdMS_TO_TICKS(2000));
+    }
+    vTaskDelete(NULL);
 }

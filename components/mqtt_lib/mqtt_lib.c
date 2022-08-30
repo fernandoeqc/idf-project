@@ -1,8 +1,13 @@
+/**
+ *    Fernando Carneiro
+ *    @fernandoeqc
+ *    2022
+ */
+
 #include <stdio.h>
 #include "mqtt_client.h"
 #include "mqtt_lib.h"
 #include "esp_log.h"
-
 
 static const char *TAG = "MQTT";
 

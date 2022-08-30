@@ -3,7 +3,7 @@
 Envio de informações de sensores via MQTT, usando wifi. Testado na placa TTGO-TCALL.
 
 #### Configurações:
-* Projeto testado com a versão 4.3.3 do ESP-IDF
+* Projeto testado com ESP-IDF v4.3.3, python 3.10 
 * Alterar o SSID e a senha no menuconfig, com o comando: `idf.py menuconfig`, na aba `Example Connection Configuration`.
 
 

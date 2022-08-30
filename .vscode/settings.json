@@ -4,4 +4,21 @@
   "idf.adapterTargetName": "esp32",
   "idf.flashType": "UART",
   "git.detectSubmodules": false,
+  "files.associations": {
+    "*.c": "c",
+    "*.dart": "dart",
+    "*.html": "html",
+    "*.rtos": "makefile",
+    "*.incl": "makefile",
+    "*.main": "makefile",
+    "*.rear": "makefile",
+    "*.front": "makefile",
+    "*.middle": "makefile",
+    "adc_lib.h": "c",
+    "esp_adc_cal.h": "c",
+    "queue.h": "c",
+    "protocol_examples_common.h": "c",
+    "task.h": "c",
+    "mqtt_lib.h": "c"
+  },
 }
