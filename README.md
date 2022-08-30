@@ -15,3 +15,4 @@ Elas compartilham entre si uma queue para transferencia dos dados lidos.
 - [ ] Controle remoto de LED por pacote Json 
 - [x] Leitura de porta analógica
 - [x] Uso de etruturas do RTOS
+- [ ] Leituras de dados seriais
