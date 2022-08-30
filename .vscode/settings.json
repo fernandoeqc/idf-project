@@ -4,6 +4,7 @@
   "idf.adapterTargetName": "esp32",
   "idf.flashType": "UART",
   "git.detectSubmodules": false,
+  "git.autoRepositoryDetection":false,
   "files.associations": {
     "*.c": "c",
     "*.dart": "dart",

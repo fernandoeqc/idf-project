@@ -8,36 +8,31 @@
 #include "esp_log.h"
 #include "adc_lib.h"
 
+#define CHANNEL_ADC ADC1_CHANNEL_6
 
 static const char *TAG = "ADC";
 static int read_raw;
-static int count_reads;
+static int count_reads = 1;
 static float voltage;
 
 void setup_adc(void)
 {
-    adc2_config_channel_atten( ADC2_CHANNEL_0, ADC_ATTEN_0db );
+    adc1_config_width(ADC_WIDTH_BIT_12);
+    adc1_config_channel_atten(CHANNEL_ADC, ADC_ATTEN_DB_0);
 }
 
 void get_adc(void)
 {
-    esp_err_t r = adc2_get_raw( ADC2_CHANNEL_0, ADC_WIDTH_12Bit, &read_raw);
-    if ( r == ESP_OK ) {
-        printf("raw: %d\n", read_raw);
-        voltage += (read_raw * 3.3 ) / (4095);
-        count_reads++;
-    
-    } else if ( r == ESP_ERR_TIMEOUT ) {
-        ESP_LOGW(TAG, "ADC2 used by Wi-Fi");
-
-    }
+    int read_raw = adc1_get_raw(CHANNEL_ADC);
+    voltage += (read_raw * 3.3 ) / (4095);
+    count_reads++;
 }
 
 float getAverageVolt(void)
 {
     float ret;
     ret = voltage / count_reads;
-    count_reads = 0;
+    count_reads = 1;
     voltage = 0;
 
     printf("Avrg volt: %.2f\n", ret);

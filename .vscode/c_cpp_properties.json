@@ -10,6 +10,7 @@
                 "${config:idf.espIdfPathWin}/components/**",
                 "${config:idf.espAdfPath}/components/**",
                 "${config:idf.espAdfPathWin}/components/**",
+                "${config:idf.espAdfPathWin}/examples/common_components/protocol_examples_common/**",
                 "${workspaceFolder}/**"
             ],
             "compileCommands": "${workspaceFolder}/build/compile_commands.json",
@@ -20,8 +21,7 @@
                     "${config:idf.espAdfPath}/components/**",
                     "${config:idf.espAdfPathWin}/components/**",
                     "${workspaceFolder}"
-                ],
-                "limitSymbolsToIncludedHeaders": false
+                ]
             }
         }
     ],
