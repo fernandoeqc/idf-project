@@ -29,7 +29,8 @@
   },
 =======
     "cjson.h": "c",
-    "mqtt_lib.h": "c"
+    "mqtt_lib.h": "c",
+    "json_lib.h": "c"
   }
 >>>>>>> add json component
 }
