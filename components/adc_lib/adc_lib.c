@@ -8,7 +8,7 @@
 #include "esp_log.h"
 #include "adc_lib.h"
 
-#define CHANNEL_ADC ADC1_CHANNEL_6
+#define CHANNEL_ADC ADC1_CHANNEL_4
 
 static const char *TAG = "ADC";
 

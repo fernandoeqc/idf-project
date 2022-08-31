@@ -8,8 +8,16 @@
 #include "mqtt_client.h"
 #include "mqtt_lib.h"
 #include "esp_log.h"
+#include <driver/gpio.h>
 
+#define LED_PIN 13
 static const char *TAG = "MQTT";
+
+/* Functions prototypes */
+static void recv_mqtt(esp_mqtt_event_handle_t event);
+static void log_error_if_nonzero(const char * message, int error_code);
+static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event);
+static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data);
 
 esp_mqtt_client_config_t mqtt_cfg = {.uri = CONFIG_BROKER_URL,};
 esp_mqtt_client_handle_t client;
@@ -32,7 +40,7 @@ static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event)
             //msg_id = esp_mqtt_client_publish(client, "/topic/qos1", "data_3", 0, 1, 0);
             //ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
 
-            msg_id = esp_mqtt_client_subscribe(client, "/diel/send/", 0);
+            msg_id = esp_mqtt_client_subscribe(client, "/diel/command/", 0);
             ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
 
             break;
@@ -50,7 +58,7 @@ static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event)
             break;
         case MQTT_EVENT_DATA:
             ESP_LOGI(TAG, "MQTT_EVENT_DATA");
-            
+            recv_mqtt(event);
             break;
         case MQTT_EVENT_ERROR:
             ESP_LOGI(TAG, "MQTT_EVENT_ERROR");
@@ -69,7 +77,8 @@ static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event)
     return ESP_OK;
 }
 
-static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data) {
+static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data) 
+{
     ESP_LOGD(TAG, "Event dispatched from event loop base=%s, event_id=%d", base, event_id);
     mqtt_event_handler_cb(event_data);
 }
@@ -79,6 +88,9 @@ void mqtt_app_start(void)
     client = esp_mqtt_client_init(&mqtt_cfg);
     esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, client);
     esp_mqtt_client_start(client);
+
+    gpio_pad_select_gpio(LED_PIN);
+    gpio_set_direction (LED_PIN,GPIO_MODE_OUTPUT);
 }
 
 void send_mqtt(char *data, int len)
@@ -88,12 +100,25 @@ void send_mqtt(char *data, int len)
 
 static void recv_mqtt(esp_mqtt_event_handle_t event)
 {
+    int i;
+    char read_data[event->data_len];
     printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
     printf("DATA=%.*s\r\n", event->data_len, event->data);
 
-    if(event->data)
+    for(i = 0; i <= event->data_len; i++)
     {
-        
+        if(i == event->data_len) read_data[i] = '\0';
+        else read_data[i] = event->data[i];
+    }
+
+    if(strcmp(read_data, "LOW") == 0) 
+    {     
+        gpio_set_level(LED_PIN, false);
+    }
+
+    else if (strcmp(read_data, "HIGH") == 0) 
+    {
+        gpio_set_level(LED_PIN, true);
     }
 
 }

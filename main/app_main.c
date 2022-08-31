@@ -66,7 +66,7 @@ static void createTasks(void)
 
     xTaskCreate(vTaskJsonPacket,
                 "jsonPack",
-                2048,
+                4090,
                 NULL,
                 1,
                 NULL);

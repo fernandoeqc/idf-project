@@ -17,6 +17,7 @@
     "string": "c",
     "array": "c",
     "string_view": "c",
-    "*.inc": "c"
+    "*.inc": "c",
+    "adc.h": "c"
   }
 }
