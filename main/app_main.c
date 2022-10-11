@@ -5,6 +5,7 @@
  *    Telemetria de dados via Mqtt
  */
 
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stddef.h>
